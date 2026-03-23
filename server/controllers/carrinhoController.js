@@ -27,9 +27,18 @@ exports.deleteItem = catchAsync(async (req, res) => {
 });
 
 exports.deleteAllItems = catchAsync(async (req, res) => {
-  console.log('controller: ', req.user.id);  
   await carrinhoService.deleteAllItems(req.supabase, {
     userId: req.user.id
   });
   res.status(204).send();
 });
+
+exports.updateQuantity = async (req, res) => {
+  const data = await carrinhoService.updateQuantity(req.supabase, {
+    userId: req.user.id,
+    carrinhoId: req.params.id,
+    action: req.body.action
+  });
+  res.status(200).json(data);
+}
+
