@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-
+app.use('/pedidos', require('./routes/pedidosRoutes'));
 app.use('/carrinho', require('./routes/carrinhoRoutes'));
 app.use('/itens', require('./routes/itensRoutes'));
 app.use('/', require('./routes/authRoutes'));
