@@ -1,7 +1,13 @@
 const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
 const app = express();
 
 app.use(express.json());
+app.use(helmet());
+app.use(cors({ origin: process.env.ALLOWED_ORIGIN }));
+app.use(morgan('combined'));
 
 app.use('/me/perfil', require('./routes/perfilRoutes'));
 app.use('/me/pedidos/historico', require('./routes/historicoRoutes'));

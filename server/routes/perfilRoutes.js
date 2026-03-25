@@ -1,6 +1,4 @@
 const express = require('express');
-console.log('perfilRoutes loaded');
-
 const router = express.Router();
 const perfilController = require('../controllers/perfilController');
 const authenticateUser = require('../middleware/authenticateUser');
