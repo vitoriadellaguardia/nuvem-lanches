@@ -16,6 +16,8 @@ app.use('/carrinho', require('./modules/carrinho/carrinhoRoutes'));
 app.use('/itens', require('./modules/itens/itensRoute'));
 app.use('/', require('./routes/authRoutes'));
 
+console.log(process.env.ALLOWED_ORIGIN);
+
 
 // Global error handler
 app.use((err, req, res, next) => {
