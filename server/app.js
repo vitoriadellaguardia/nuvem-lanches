@@ -12,8 +12,8 @@ app.use(morgan('combined'));
 app.use('/me/perfil', require('./routes/perfilRoutes'));
 app.use('/me/pedidos/historico', require('./routes/historicoRoutes'));
 app.use('/pedidos', require('./routes/pedidosRoutes'));
-app.use('/carrinho', require('./routes/carrinhoRoutes'));
-app.use('/itens', require('./routes/itensRoutes'));
+app.use('/carrinho', require('./modules/carrinho/carrinhoRoutes'));
+app.use('/itens', require('./modules/itens/itensRoute'));
 app.use('/', require('./routes/authRoutes'));
 
 
