@@ -1,12 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ItensPage from "./pages/ItensPage";
 
-export default function App() {
+import Login from "./pages/Login";
+import Cadastro from "./pages/Cadastro";
+import Dashboard from "./pages/Dashboard";
+
+function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ItensPage />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
+export default App;
