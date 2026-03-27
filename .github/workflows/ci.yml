@@ -1,23 +1,38 @@
-# Configuração para o Backend
-      - name: Instalar dependências (Backend)
-        working-directory: ./server
-        run: npm install
+name: CI Pipeline
 
-      - name: Rodar Testes (Backend)
-        working-directory: ./server
-        # O "|| true" garante que o pipeline continue mesmo se o teste falhar ou não existir
-        run: npm test --if-present || true
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Configuração para o Backend
+      - name: Instalar dependências (Backend)
+        run: |
+          cd server
+          npm install
 
       # Configuração para o Frontend
       - name: Instalar dependências (Frontend)
-        working-directory: ./client
-        run: npm install
+        run: |
+          cd client
+          npm install
 
-      - name: Rodar Testes (Frontend)
-        working-directory: ./client
-        run: npm test --if-present || true
-        
-      # DICA EXTRA: Adicione um passo de Build no Front para garantir que o deploy vai dar certo
+      # Garante que o Front-end compila sem erros
       - name: Build Frontend
-        working-directory: ./client
-        run: npm run build
+        run: |
+          cd client
+          npm run build
