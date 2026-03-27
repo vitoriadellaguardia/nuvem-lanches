@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { login } from "../services/authService";
+// 1. MUDANÇA: Importar o supabase direto (em vez do authService)
+import { supabase } from "../lib/supabase"; 
 import FeedbackMessage from "../components/FeedbackMessage";
 
 function Login() {
@@ -17,10 +18,17 @@ function Login() {
     setFeedback({ type: "", message: "" });
 
     try {
-      const data = await login(email, password);
+      // 2. MUDANÇA: Chamar o Supabase no cliente em vez da sua API
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      localStorage.setItem("token", data.access_token);
-      localStorage.setItem("refresh_token", data.refresh_token);
+      if (error) throw error; // Se o Supabase der erro, ele pula para o catch
+
+      // 3. MUDANÇA: O caminho dos dados muda de 'data.user' para 'data.session.user'
+      localStorage.setItem("token", data.session.access_token);
+      localStorage.setItem("refresh_token", data.session.refresh_token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       setFeedback({ type: "success", message: "Login realizado com sucesso!" });
@@ -29,8 +37,8 @@ function Login() {
         navigate("/dashboard");
       }, 700);
     } catch (error) {
-      const mensagem =
-        error.response?.data?.error || "Erro ao fazer login";
+      // Mantive seu tratamento de erro, apenas adaptado para o erro do Supabase
+      const mensagem = error.message || "Erro ao fazer login";
       setFeedback({ type: "error", message: mensagem });
       console.error(error);
     } finally {
